@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LexiconUniversity.Models;
+using AutoMapper;
 
 namespace LexiconUniversity
 {
@@ -33,7 +34,7 @@ namespace LexiconUniversity
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<LexiconUniversityContext>(options =>

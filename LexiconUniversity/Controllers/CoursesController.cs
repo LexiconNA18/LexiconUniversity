@@ -33,6 +33,7 @@ namespace LexiconUniversity.Controllers
             }
 
             var course = await _context.Course
+                .Include(c => c.Enrollments).ThenInclude(e => e.Person)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {

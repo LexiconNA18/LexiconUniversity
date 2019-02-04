@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoMapper;
+using LexiconUniversity.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LexiconUniversity.Models;
 
 namespace LexiconUniversity.Controllers
 {
     public class PeopleController : Controller
     {
         private readonly LexiconUniversityContext _context;
+        private readonly IMapper _mapper;
 
-        public PeopleController(LexiconUniversityContext context)
+        public PeopleController(LexiconUniversityContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: People
@@ -32,14 +32,28 @@ namespace LexiconUniversity.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            //var explicitPerson = await _context.Person
+            //    .Select(p => new PersonDetailsViewModel
+            //    {
+            //        Id = p.Id,
+            //        Name = p.Name,
+            //        Address = p.Address,
+            //        Email = p.Email,
+            //        Enrollments = p.Enrollments,
+            //        Courses = p.Enrollments.Select(e => e.Course).ToList()
+            //    })
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+
+            var autoMappedPerson = await _mapper
+                .ProjectTo<PersonDetailsViewModel>(_context.Person)                
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (autoMappedPerson == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(autoMappedPerson);
         }
 
         // GET: People/Create

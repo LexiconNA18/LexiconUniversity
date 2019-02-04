@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace LexiconUniversity.Models
@@ -40,12 +41,13 @@ namespace LexiconUniversity.Models
                 }
                 context.Person.AddRange(people);
 
+                var textInfo = new CultureInfo("en-us", false).TextInfo;
                 var courses = new List<Course>();
                 for (int i = 0; i < 10; i++)
                 {
                     var course = new Course
                     {
-                        Title = Faker.Company.BS()
+                        Title = textInfo.ToTitleCase(Faker.Company.BS())
                     };
                     courses.Add(course);
                 }

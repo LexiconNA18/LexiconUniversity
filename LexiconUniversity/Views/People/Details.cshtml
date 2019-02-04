@@ -1,4 +1,4 @@
-﻿@model LexiconUniversity.Models.Person
+﻿@model LexiconUniversity.Models.PersonDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,18 +10,28 @@
     <h4>Person</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Name)        </dt>
+        <dd class="col-sm-10"> @Html.DisplayFor(model => model.Name)        </dd>
+
+        <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Email)        </dt>
+        <dd class="col-sm-10"> @Html.DisplayFor(model => model.Email)        </dd>
+
+        <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Address)        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.Street)  <br />
+            @Html.DisplayFor(model => model.Address.City)  <br />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+
+        <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Courses)        </dt>
+        <dd class="col-sm-10">
+            @foreach (var course in Model.Courses)
+            {
+                <a asp-controller="Courses" asp-action="Details" asp-route-id="@course.Id">
+                    @course.Title
+                </a><br />
+            }
         </dd>
+
     </dl>
 </div>
 <div>
