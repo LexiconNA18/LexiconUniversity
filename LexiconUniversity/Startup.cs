@@ -33,8 +33,7 @@ namespace LexiconUniversity
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddAutoMapper(typeof(Startup));
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<LexiconUniversityContext>(options =>

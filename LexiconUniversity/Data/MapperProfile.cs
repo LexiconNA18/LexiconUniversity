@@ -14,7 +14,12 @@ namespace LexiconUniversity.Models
             CreateMap<Person, PersonDetailsViewModel>()
                 .ForMember(
                     dest => dest.Courses,
-                    from => from.MapFrom(p => p.Enrollments.Select(e => e.Course).ToList()));
+                    from => from.MapFrom(p => p.Enrollments.Select(e => e.Course).ToList()))
+                .ForMember(
+                    dest => dest.Attending,
+                    from => from.MapFrom(p => p.Enrollments.Count)
+                );
+    
         }
     }
 }

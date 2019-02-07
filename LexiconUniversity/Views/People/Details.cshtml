@@ -16,12 +16,15 @@
         <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Email)        </dt>
         <dd class="col-sm-10"> @Html.DisplayFor(model => model.Email)        </dd>
 
-        <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Address)        </dt>
+        <dt class="col-sm-2">  Adddress  </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address.Street)  <br />
-            @Html.DisplayFor(model => model.Address.City)  <br />
+            @Html.DisplayFor(model => model.AddressStreet)  <br />
+            @Html.DisplayFor(model => model.AddressCity)  <br />
         </dd>
-
+        <dt class="col-sm-2">   @Html.DisplayNameFor(model => model.Attending)  </dt>
+        <dd class="col-sm-10">
+            @Model.Attending Courses<br />
+        </dd>
         <dt class="col-sm-2">  @Html.DisplayNameFor(model => model.Courses)        </dt>
         <dd class="col-sm-10">
             @foreach (var course in Model.Courses)

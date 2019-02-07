@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using AutoMapper.QueryableExtensions;
 using LexiconUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +10,10 @@ namespace LexiconUniversity.Controllers
     public class PeopleController : Controller
     {
         private readonly LexiconUniversityContext _context;
-        private readonly IMapper _mapper;
 
-        public PeopleController(LexiconUniversityContext context, IMapper mapper)
+        public PeopleController(LexiconUniversityContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         // GET: People
@@ -31,29 +29,17 @@ namespace LexiconUniversity.Controllers
             {
                 return NotFound();
             }
+         
+            var person = await _context.Person
+                .ProjectTo<PersonDetailsViewModel>()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            //var explicitPerson = await _context.Person
-            //    .Select(p => new PersonDetailsViewModel
-            //    {
-            //        Id = p.Id,
-            //        Name = p.Name,
-            //        Address = p.Address,
-            //        Email = p.Email,
-            //        Enrollments = p.Enrollments,
-            //        Courses = p.Enrollments.Select(e => e.Course).ToList()
-            //    })
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-
-            var autoMappedPerson = await _mapper
-                .ProjectTo<PersonDetailsViewModel>(_context.Person)                
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (autoMappedPerson == null)
+            if (person == null)
             {
                 return NotFound();
             }
 
-            return View(autoMappedPerson);
+            return View(person);
         }
 
         // GET: People/Create
@@ -139,6 +125,7 @@ namespace LexiconUniversity.Controllers
 
             var person = await _context.Person
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (person == null)
             {
                 return NotFound();

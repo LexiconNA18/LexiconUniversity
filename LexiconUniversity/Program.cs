@@ -1,4 +1,5 @@
-﻿using LexiconUniversity.Models;
+﻿using AutoMapper;
+using LexiconUniversity.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,8 @@ namespace LexiconUniversity
     {
         public static void Main(string[] args)
         {
+            Mapper.Initialize(cfg => cfg.AddProfile<MapperProfile>());
+
             IWebHost webHost = CreateWebHostBuilder(args).Build();
 
             using (var scope = webHost.Services.CreateScope())
